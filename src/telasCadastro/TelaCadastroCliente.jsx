@@ -6,6 +6,18 @@ import { useState } from "react";
 
 export default function TelaCadastroCliente(props) {
     const [exibirFormulario, setExibirFormulario] = useState(false);
+    const [listaClientes, setListaClientes] = useState([]);
+    const [clienteParaEdicao, setClienteParaEdicao] = useState({
+        cpf:'',
+        nome:'',
+        endereco:'',
+        numero:'',
+        bairro:'',
+        cidade:'',
+        uf:'SP',
+        cep:''
+    });
+    const [modoEdicao, setModoEdicao] = useState(false);
     
     return (
         <Container>
@@ -13,7 +25,23 @@ export default function TelaCadastroCliente(props) {
                 {
                     //dinâmica em que o usuário irá alternar entre o formulário de cadastro
                     //e a visualização do registros já cadastrados.
-                    exibirFormulario ? <FormCadCliente exibirFormulario={setExibirFormulario}/> : <TabelaClientes exibirFormulario={setExibirFormulario}/>
+                    exibirFormulario ? <FormCadCliente exibirFormulario={setExibirFormulario} 
+                                                       listaClientes={listaClientes}
+                                                       setListaClientes={setListaClientes}
+                                                       clienteParaEdicao={clienteParaEdicao}
+                                                       setClienteParaEdicao={setClienteParaEdicao}
+                                                       modoEdicao={modoEdicao}
+                                                       setModoEdicao={setModoEdicao}
+                                                       /> 
+                                     : 
+                                      <TabelaClientes exibirFormulario={setExibirFormulario}
+                                                      listaClientes={listaClientes}
+                                                      setListaClientes={setListaClientes}
+                                                      clienteParaEdicao={clienteParaEdicao}
+                                                      setClienteParaEdicao={setClienteParaEdicao}
+                                                      modoEdicao={modoEdicao}
+                                                      setModoEdicao={setModoEdicao}
+                                                      />
                 }
             </Pagina>
         </Container>

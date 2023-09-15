@@ -2,16 +2,7 @@ import { useState } from "react";
 import { Button, Container, Form, Row, Col, FloatingLabel } from "react-bootstrap";
 export default function FormCadCliente(props) {
     //os atributos deste objeto devem estar associados aos inputs do formulários
-    const estadoInicialCliente = {
-            cpf:'',
-            nome:'',
-            endereco:'',
-            numero:'',
-            bairro:'',
-            cidade:'',
-            uf:'SP',
-            cep:''
-        }
+    const estadoInicialCliente = props.clienteParaEdicao;
     const [cliente, setCliente] = useState(estadoInicialCliente);
     const [formValidado, setFormValidado] = useState(false);
 
@@ -26,6 +17,25 @@ export default function FormCadCliente(props) {
         if (form.checkValidity()){
             //todos os campos preenchidos
             //mandar os dados para o backend
+            if(!props.modoEdicao){
+                props.setListaClientes([...props.listaClientes,cliente]);
+            }
+            else{
+                //alterar os dados do cliente (filtra e adiciona)
+
+                props.setListaClientes([...props.listaClientes.filter((itemCliente)=>itemCliente.cpf !== cliente.cpf),cliente]);
+                props.setModoEdicao(false);
+                props.setClienteParaEdicao({
+                    cpf:'',
+                    nome:'',
+                    endereco:'',
+                    numero:'',
+                    bairro:'',
+                    cidade:'',
+                    uf:'SP',
+                    cep:''
+                });                
+            }
             setCliente(estadoInicialCliente);
             setFormValidado(false);
         }
@@ -223,7 +233,7 @@ export default function FormCadCliente(props) {
                 </Row>
                 <Row>
                     <Col md={6} offset={5} className="d-flex justify-content-end">
-                        <Button type="submit" variant={"primary"}>Cadastrar</Button>
+                        <Button type="submit" variant={"primary"}>{props.modoEdicao ? "Alterar":"Cadastrar"}</Button>
                     </Col>
                     <Col md={6} offset={5}>
                         <Button type="button" variant={"secondary"} onClick={() => {
