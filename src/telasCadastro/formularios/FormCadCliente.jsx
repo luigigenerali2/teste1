@@ -2,6 +2,16 @@ import { useState } from "react";
 import { Button, Container, Form, Row, Col, FloatingLabel } from "react-bootstrap";
 export default function FormCadCliente(props) {
     //os atributos deste objeto devem estar associados aos inputs do formulários
+    const clienteVazio = {
+        cpf:'',
+        nome:'',
+        endereco:'',
+        numero:'',
+        bairro:'',
+        cidade:'',
+        uf:'SP',
+        cep:''
+    }
     const estadoInicialCliente = props.clienteParaEdicao;
     const [cliente, setCliente] = useState(estadoInicialCliente);
     const [formValidado, setFormValidado] = useState(false);
@@ -25,18 +35,9 @@ export default function FormCadCliente(props) {
 
                 props.setListaClientes([...props.listaClientes.filter((itemCliente)=>itemCliente.cpf !== cliente.cpf),cliente]);
                 props.setModoEdicao(false);
-                props.setClienteParaEdicao({
-                    cpf:'',
-                    nome:'',
-                    endereco:'',
-                    numero:'',
-                    bairro:'',
-                    cidade:'',
-                    uf:'SP',
-                    cep:''
-                });                
+                props.setClienteParaEdicao(clienteVazio);                
             }
-            setCliente(estadoInicialCliente);
+            setCliente(clienteVazio); // ou sair da tela de formulário 
             setFormValidado(false);
         }
         else{
